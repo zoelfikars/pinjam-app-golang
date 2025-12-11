@@ -117,9 +117,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}auth/login",
+									"raw": "auth/login",
 									"host": [
-										"{{url}}auth"
+										"auth"
 									],
 									"path": [
 										"login"
@@ -220,9 +220,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}auth/register",
+									"raw": "auth/register",
 									"host": [
-										"{{url}}auth"
+										"auth"
 									],
 									"path": [
 										"register"
@@ -363,9 +363,9 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}auth/logout",
+									"raw": "auth/logout",
 									"host": [
-										"{{url}}auth"
+										"auth"
 									],
 									"path": [
 										"logout"
@@ -442,9 +442,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{url}}pinjaman/list",
+											"raw": "pinjaman/list",
 											"host": [
-												"{{url}}pinjaman"
+												"pinjaman"
 											],
 											"path": [
 												"list"
@@ -507,7 +507,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    // \"catatan_admin\" : \"ada ga\",\n    \"status\" : \"rejected\"\n}",
+									"raw": "{\n    \"catatan_admin\" : \"ada ga\",\n    \"status\" : \"rejected\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -541,12 +541,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}pinjaman/{{pinjaman_id}}/approval",
+											"raw": "pinjaman//approval",
 											"host": [
-												"{{url}}pinjaman"
+												"pinjaman"
 											],
 											"path": [
-												"{{pinjaman_id}}",
+												"",
 												"approval"
 											]
 										}
@@ -647,7 +647,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{ijul}}",
+											"value": "{{nasabah}}",
 											"type": "string"
 										}
 									]
@@ -671,9 +671,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{url}}pinjaman/nasabah",
+											"raw": "pinjaman/nasabah",
 											"host": [
-												"{{url}}pinjaman"
+												"pinjaman"
 											],
 											"path": [
 												"nasabah"
@@ -727,7 +727,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{ijul}}",
+											"value": "{{nasabah}}",
 											"type": "string"
 										}
 									]
@@ -736,7 +736,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    // \"nama_lengkap\" : \"Muhamad Zulfikar Fikri\",\n    \"jumlah_pinjaman\" : 1000000,\n    \"nik\" : \"3204090200303005\",\n    // \"no_telepon\": \"+6289632586769\",\n    \"alamat\": \"alamat\"\n}",
+									"raw": "{\n    \"jumlah_pinjaman\" : 1000000,\n    \"nik\" : \"3204090200303005\",\n    \"no_telepon\": \"1241212412\",\n    \"alamat\": \"alamat\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -769,9 +769,9 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}pinjaman/ajukan",
+											"raw": "pinjaman/ajukan",
 											"host": [
-												"{{url}}pinjaman"
+												"pinjaman"
 											],
 											"path": [
 												"ajukan"
@@ -859,11 +859,15 @@
 			"value": ""
 		},
 		{
-			"key": "ijul",
+			"key": "nasabah",
 			"value": ""
 		},
 		{
 			"key": "admin",
+			"value": ""
+		},
+		{
+			"key": "authToken",
 			"value": ""
 		}
 	]
