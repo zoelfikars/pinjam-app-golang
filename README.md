@@ -13,6 +13,7 @@ Tentu, berikut adalah kerangka *README.md* yang disesuaikan dengan fokus pada **
 3.  [Konfigurasi `.env`](https://www.google.com/search?q=%233-konfigurasi-env)
 4.  [Manajemen Database (Goose)](https://www.google.com/search?q=%234-manajemen-database-goose)
 5.  [Menjalankan Proyek](https://www.google.com/search?q=%235-menjalankan-proyek)
+6.  [Dokumentasi API (Postman)](https://www.google.com/search?q=%236-dokumentasi-api-postman)
 
 -----
 
@@ -130,3 +131,26 @@ go run cmd/main.go
 (Asumsikan file utama Anda adalah `cmd/main.go`)
 
 Aplikasi akan berjalan di port yang ditentukan di `SERVER_PORT` (default: `http://localhost:8095`).
+
+## 6\. Dokumentasi API (Postman)
+
+Koleksi Postman untuk menguji semua *endpoint* API tersedia di direktori `[PATH/TO/POSTMAN/COLLECTION.json]`.
+
+### 6.1. Cara Import Koleksi Postman
+
+Ikuti langkah-langkah ini untuk mengimpor dan menjalankan API:
+
+1.  **Buka Postman:** Luncurkan aplikasi Postman Anda.
+2.  **Pilih "Import":** Klik tombol **"Import"** yang berada di sudut kiri atas Postman.
+3.  **Pilih File:** Pilih opsi **"Choose Files"** (atau tarik & lepas file) dan arahkan ke file koleksi Postman di dalam proyek Anda:
+    ```
+    [PATH/TO/POSTMAN/COLLECTION.json]
+    ```
+4.  **Atur Environment:** Setelah koleksi terimpor, Anda mungkin perlu mengatur *environment* untuk menyesuaikan URL dasar dan *token* otentikasi.
+      * Cek variabel `baseURL` di *Environment* Postman dan pastikan nilainya adalah `http://localhost:[SERVER_PORT]` (misalnya: `http://localhost:8095`).
+
+### 6.2. Penggunaan Token JWT
+
+  * Untuk *endpoint* yang memerlukan otentikasi, Anda harus menjalankan *endpoint* login terlebih dahulu.
+  * Salin `access_token` dari respons login.
+  * Tempelkan *token* tersebut ke bagian **Authorization** (biasanya menggunakan tipe **Bearer Token**) pada *request* API yang Anda uji.

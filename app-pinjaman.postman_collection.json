@@ -1,0 +1,870 @@
+{
+	"info": {
+		"_postman_id": "16bf3bb1-74f4-4fca-a67e-96215d279e5f",
+		"name": "app-pinjaman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29761405",
+		"_collection_link": "https://literasearch.postman.co/workspace/f0d34c21-a4be-4594-877c-cd03149d5637/collection/29761405-16bf3bb1-74f4-4fca-a67e-96215d279e5f?action=share&source=collection_link&creator=29761405"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse JSON safely and set collection variable when present",
+									"let isJson = false;",
+									"let body = pm.response.text();",
+									"let json = null;",
+									"",
+									"try {",
+									"  json = pm.response.json();",
+									"  isJson = true;",
+									"} catch (e) {",
+									"  isJson = false;",
+									"}",
+									"",
+									"// Tests",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response is JSON\", function () {",
+									"  pm.expect(isJson, \"response should be valid JSON\").to.be.true;",
+									"});",
+									"",
+									"pm.test(\"Token exists and is a non-empty string\", function () {",
+									"  pm.expect(isJson, \"response must be JSON to check token\").to.be.true;",
+									"  pm.expect(json).to.be.an(\"object\");",
+									"  pm.expect(json).to.have.property(\"data\").that.is.an(\"object\");",
+									"  pm.expect(json.data).to.have.property(\"token\");",
+									"  pm.expect(json.data.token).to.be.a(\"string\").and.to.have.length.greaterThan(0);",
+									"});",
+									"",
+									"// Save token to collection variable only for 2xx responses and when token is valid string",
+									"if (pm.response.code >= 200 && pm.response.code < 300 && isJson && json && json.data && typeof json.data.token === 'string' && json.data.token.length > 0) {",
+									"  pm.collectionVariables.set('authToken', json.data.token);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    // \"username\":\"ijul\",\n    \"username\":\"admin\",\n    \"password\":\"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/login",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    // \"username\":\"ijul\",\n    \"username\":\"admin\",\n    \"password\":\"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}auth/login",
+									"host": [
+										"{{url}}auth"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 11 Dec 2025 06:52:26 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "cf-cache-status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=KlRCeRCY2jP2KUMPgsDVGRFrjvzoazsjRHrqIgRseUIYDBZ1Xoxfkr%2Fkr%2F98jv0756Le2ytkZraIXJz%2F%2BSNHgNt5kJNfyyv6wM25CFxajtvbx1xxYHRffnUt\"}]}"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "9ac30f21dc24b1ab-LAX"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Login berhasil\",\n    \"data\": {\n        \"expired_at\": \"2025-12-12T13:52:25.943878189+07:00\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzc0NTUxZjgtMmQ2My00NmEzLWI5YzAtNDA3OTliOTlmYWJiIiwicm9sZSI6ImFkbWluIiwiZXhwIjoxNzY1NTIyMzQ1LCJpYXQiOjE3NjU0MzU5NDV9.yqO6S84PNw_R8okRujlhTaIXVLObfAB7af2b0KYQbRQ\",\n        \"user\": {\n            \"id\": \"774551f8-2d63-46a3-b9c0-40799b99fabb\",\n            \"created_at\": \"2025-12-11T13:22:12.645819+07:00\",\n            \"updated_at\": \"2025-12-11T13:22:12.645819+07:00\",\n            \"username\": \"admin\",\n            \"nama_lengkap\": \"Admin\",\n            \"role\": \"admin\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    // \"nama_lengkap\": \"Admin\",\n    \"nama_lengkap\": \"Joelpikarz\",\n    \"password\" : \"password\",\n    \"password_confirmation\" : \"password\",\n    \"username\":\"udin\"\n    // \"username\":\"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}auth/register",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "register",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nama_lengkap\": \"Halo abangda\",\n    \"password\" : \"password\",\n    \"username\":\"abangda\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}auth/register",
+									"host": [
+										"{{url}}auth"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.29.3"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 11 Dec 2025 01:48:03 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "302"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Pendaftaran nasabah berhasil. Silahkan login.\",\n    \"data\": {\n        \"id\": \"b04a6e07-1684-44cb-80c7-21bbfc4d6aa1\",\n        \"created_at\": \"2025-12-11T08:48:03.339480546+07:00\",\n        \"updated_at\": \"2025-12-11T08:48:03.339480546+07:00\",\n        \"username\": \"abangda\",\n        \"nama_lengkap\": \"Halo abangda\",\n        \"role\": \"nasabah\"\n    }\n}"
+						},
+						{
+							"name": "register",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nama_lengkap\": \"Halo abangda\",\n    \"password\" : \"password\",\n    \"username\":\"abangda\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}auth/register",
+									"host": [
+										"{{url}}auth"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.29.3"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 11 Dec 2025 01:48:11 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"error\",\n    \"message\": \"User sudah terdaftar\"\n}"
+						}
+					]
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const variableName = \"authToken\";",
+									"",
+									"if (pm.collectionVariables.get(variableName)) {",
+									"    pm.collectionVariables.unset(variableName);",
+									"    console.log(`Variabel Koleksi '${variableName}' telah dihapus.`);",
+									"} else {",
+									"    console.log(`Variabel Koleksi '${variableName}' tidak ditemukan.`);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}auth/logout",
+							"host": [
+								"{{url}}auth"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "logout",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}auth/logout",
+									"host": [
+										"{{url}}auth"
+									],
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.29.3"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 11 Dec 2025 05:44:07 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Logout berhasil dan token dihapus.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "pinjaman",
+			"item": [
+				{
+					"name": "admin",
+					"item": [
+						{
+							"name": "pinjaman/list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}pinjaman/list",
+									"host": [
+										"{{url}}pinjaman"
+									],
+									"path": [
+										"list"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "pinjaman/list",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}pinjaman/list",
+											"host": [
+												"{{url}}pinjaman"
+											],
+											"path": [
+												"list"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.29.3"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 11 Dec 2025 01:46:28 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"name": "Content-Type",
+											"description": "",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1407"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"status\": \"success\",\n    \"message\": \"List pinjaman berhasil diambil\",\n    \"data\": [\n        {\n            \"id\": \"f6d5496a-acca-4872-97b5-400211b1bdf0\",\n            \"nik\": \"3204090200303005\",\n            \"nama_lengkap\": \"Muhamad Zulfikar Fikri\",\n            \"alamat\": \"alamat\",\n            \"no_telepon\": \"+6289632586769\",\n            \"jumlah_pinjaman\": 1000000,\n            \"status\": \"diajukan\",\n            \"nasabah\": {\n                \"id\": \"0b54358f-b23e-40ae-8156-70e9ed17c263\",\n                \"username\": \"ijul\",\n                \"nama_lengkap\": \"Muhamad Zulfikar Fikri\",\n                \"role\": \"nasabah\",\n                \"created_at\": \"2025-12-10T22:45:06.040549+07:00\",\n                \"updated_at\": \"2025-12-10T22:45:06.040549+07:00\"\n            },\n            \"created_at\": \"2025-12-11T08:45:56.009736+07:00\",\n            \"updated_at\": \"2025-12-11T08:45:56.009736+07:00\"\n        },\n        {\n            \"id\": \"033991be-4d9f-45d2-b90e-bd86b86fb311\",\n            \"nik\": \"3204090200303005\",\n            \"nama_lengkap\": \"Muhamad Zulfikar Fikri\",\n            \"alamat\": \"alamat\",\n            \"no_telepon\": \"+6289632586769\",\n            \"jumlah_pinjaman\": 1000000,\n            \"status\": \"ditolak\",\n            \"catatan_admin\": \"halo\",\n            \"inspected_at\": \"2025-12-10T22:47:05.40815+07:00\",\n            \"inspector\": {\n                \"id\": \"2930d3ec-8bcd-4556-b8fb-5e93f3847113\",\n                \"nama_lengkap\": \"Administrator Sistem\",\n                \"role\": \"admin\",\n                \"created_at\": \"2025-12-10T22:40:30.979535+07:00\",\n                \"updated_at\": \"2025-12-10T22:40:30.979535+07:00\"\n            },\n            \"nasabah\": {\n                \"id\": \"0b54358f-b23e-40ae-8156-70e9ed17c263\",\n                \"username\": \"ijul\",\n                \"nama_lengkap\": \"Muhamad Zulfikar Fikri\",\n                \"role\": \"nasabah\",\n                \"created_at\": \"2025-12-10T22:45:06.040549+07:00\",\n                \"updated_at\": \"2025-12-10T22:45:06.040549+07:00\"\n            },\n            \"created_at\": \"2025-12-10T22:46:20.478562+07:00\",\n            \"updated_at\": \"2025-12-10T22:47:05.408196+07:00\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "pinjaman/approval",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    // \"catatan_admin\" : \"ada ga\",\n    \"status\" : \"rejected\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}pinjaman/{{pinjaman_id}}/approval",
+									"host": [
+										"{{url}}pinjaman"
+									],
+									"path": [
+										"{{pinjaman_id}}",
+										"approval"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "pinjaman/approval",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"catatan_admin\" : \"halo\",\n    \"status\" : \"ditolak\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}pinjaman/{{pinjaman_id}}/approval",
+											"host": [
+												"{{url}}pinjaman"
+											],
+											"path": [
+												"{{pinjaman_id}}",
+												"approval"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.29.3"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 11 Dec 2025 01:47:03 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "69"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"success\",\n    \"message\": \"Status pinjaman berhasil diperbarui\"\n}"
+								},
+								{
+									"name": "pinjaman/approval",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"catatan_admin\" : \"halo\",\n    \"status\" : \"ditolak\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}pinjaman/{{pinjaman_id}}/approval",
+											"host": [
+												"{{url}}pinjaman"
+											],
+											"path": [
+												"{{pinjaman_id}}",
+												"approval"
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.29.3"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 11 Dec 2025 01:47:09 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "80"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"error\",\n    \"message\": \"pinjaman sudah diproses (disetujui atau ditolak)\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "nasabah",
+					"item": [
+						{
+							"name": "pinjaman/nasabah",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{ijul}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}pinjaman/nasabah",
+									"host": [
+										"{{url}}pinjaman"
+									],
+									"path": [
+										"nasabah"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "pinjaman/nasabah",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}pinjaman/nasabah",
+											"host": [
+												"{{url}}pinjaman"
+											],
+											"path": [
+												"nasabah"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.29.3"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 11 Dec 2025 02:09:01 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"name": "Content-Type",
+											"description": "",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1232"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"status\": \"success\",\n    \"message\": \"List pinjaman berhasil diambil\",\n    \"data\": [\n        {\n            \"id\": \"f6d5496a-acca-4872-97b5-400211b1bdf0\",\n            \"nik\": \"3204090200303005\",\n            \"nama_lengkap\": \"Muhamad Zulfikar Fikri\",\n            \"alamat\": \"alamat\",\n            \"no_telepon\": \"+6289632586769\",\n            \"jumlah_pinjaman\": 1000000,\n            \"status\": \"ditolak\",\n            \"catatan_admin\": \"halo\",\n            \"inspected_at\": \"2025-12-11T08:47:03.094973+07:00\",\n            \"inspector\": {\n                \"id\": \"2930d3ec-8bcd-4556-b8fb-5e93f3847113\",\n                \"nama_lengkap\": \"Administrator Sistem\",\n                \"role\": \"admin\",\n                \"created_at\": \"2025-12-10T22:40:30.979535+07:00\",\n                \"updated_at\": \"2025-12-10T22:40:30.979535+07:00\"\n            },\n            \"created_at\": \"2025-12-11T08:45:56.009736+07:00\",\n            \"updated_at\": \"2025-12-11T08:47:03.095039+07:00\"\n        },\n        {\n            \"id\": \"033991be-4d9f-45d2-b90e-bd86b86fb311\",\n            \"nik\": \"3204090200303005\",\n            \"nama_lengkap\": \"Muhamad Zulfikar Fikri\",\n            \"alamat\": \"alamat\",\n            \"no_telepon\": \"+6289632586769\",\n            \"jumlah_pinjaman\": 1000000,\n            \"status\": \"ditolak\",\n            \"catatan_admin\": \"halo\",\n            \"inspected_at\": \"2025-12-10T22:47:05.40815+07:00\",\n            \"inspector\": {\n                \"id\": \"2930d3ec-8bcd-4556-b8fb-5e93f3847113\",\n                \"nama_lengkap\": \"Administrator Sistem\",\n                \"role\": \"admin\",\n                \"created_at\": \"2025-12-10T22:40:30.979535+07:00\",\n                \"updated_at\": \"2025-12-10T22:40:30.979535+07:00\"\n            },\n            \"created_at\": \"2025-12-10T22:46:20.478562+07:00\",\n            \"updated_at\": \"2025-12-10T22:47:05.408196+07:00\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "pinjaman/ajukan",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{ijul}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    // \"nama_lengkap\" : \"Muhamad Zulfikar Fikri\",\n    \"jumlah_pinjaman\" : 1000000,\n    \"nik\" : \"3204090200303005\",\n    // \"no_telepon\": \"+6289632586769\",\n    \"alamat\": \"alamat\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}pinjaman/ajukan",
+									"host": [
+										"{{url}}pinjaman"
+									],
+									"path": [
+										"ajukan"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "pinjaman/ajukan",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    // \"nama_lengkap\" : \"Muhamad Zulfikar Fikri\",\n    \"jumlah_pinjaman\" : 1000000,\n    \"nik\" : \"3204090200303005\",\n    \"no_telepon\": \"+6289632586769\",\n    \"alamat\": \"alamat\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}pinjaman/ajukan",
+											"host": [
+												"{{url}}pinjaman"
+											],
+											"path": [
+												"ajukan"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx/1.29.3"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 11 Dec 2025 01:45:56 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										},
+										{
+											"key": "Content-Length",
+											"value": "159"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"status\": \"success\",\n    \"message\": \"Pinjaman berhasil diajukan\",\n    \"data\": {\n        \"id\": \"f6d5496a-acca-4872-97b5-400211b1bdf0\",\n        \"jumlah_pinjaman\": 1000000,\n        \"status\": \"diajukan\"\n    }\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": ""
+		},
+		{
+			"key": "domain",
+			"value": ""
+		},
+		{
+			"key": "pinjaman_id",
+			"value": ""
+		},
+		{
+			"key": "ijul",
+			"value": ""
+		},
+		{
+			"key": "admin",
+			"value": ""
+		}
+	]
+}
