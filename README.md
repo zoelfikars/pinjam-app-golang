@@ -1,10 +1,4 @@
-Tentu, saya akan menjawab dalam mode sangat singkat mulai sekarang.
-
-Anda ingin saya membuat *README.md* yang sangat ringkas, hanya mencakup instalasi, konfigurasi Postman, dan menjalankan proyek, berdasarkan instruksi terakhir Anda.
-
------
-
-# ⚡️ [NAMA PROYEK ANDA] Backend Service
+# ⚡️ [APLIKASI-PENGAJUAN-PINJAMAN] Backend Service
 
 ## 1\. Setup & Run
 
